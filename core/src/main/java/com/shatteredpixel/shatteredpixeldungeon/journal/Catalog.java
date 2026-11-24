@@ -365,6 +365,7 @@ public enum Catalog {
 	}
 	
 	public static void setSeen(Class<?> cls){
+		if (com.shatteredpixel.shatteredpixeldungeon.SeedFinder.simulating) return;
 		for (Catalog cat : values()) {
 			if (cat.seen.containsKey(cls) && !cat.seen.get(cls)) {
 				cat.seen.put(cls, true);
@@ -388,6 +389,7 @@ public enum Catalog {
 	}
 
 	public static void countUses(Class<?> cls, int uses){
+		if (com.shatteredpixel.shatteredpixeldungeon.SeedFinder.simulating) return;
 		for (Catalog cat : values()) {
 			if (cat.useCount.containsKey(cls) && cat.useCount.get(cls) != Integer.MAX_VALUE) {
 				cat.useCount.put(cls, cat.useCount.get(cls)+uses);

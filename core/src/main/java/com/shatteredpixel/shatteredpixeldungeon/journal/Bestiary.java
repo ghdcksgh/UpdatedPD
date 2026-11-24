@@ -319,6 +319,7 @@ public enum Bestiary {
 	}
 
 	public static void setSeen(Class<?> cls){
+		if (com.shatteredpixel.shatteredpixeldungeon.SeedFinder.simulating) return;
 		if (classConversions.containsKey(cls)){
 			cls = classConversions.get(cls);
 		}
@@ -348,6 +349,7 @@ public enum Bestiary {
 	}
 
 	public static void countEncounters(Class<?> cls, int encounters){
+		if (com.shatteredpixel.shatteredpixeldungeon.SeedFinder.simulating) return;
 		if (skipCountingEncounters){
 			return;
 		}

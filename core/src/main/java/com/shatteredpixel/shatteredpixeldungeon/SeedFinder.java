@@ -235,7 +235,21 @@ public class SeedFinder {
 		return trinkets;
 	}
 
+	//MERGE: while true, level generation must not touch the player's journal or badges
+	//(upstream 4.0 marks identified items as 'seen' in the catalog and can unlock journal badges)
+	public static boolean simulating = false;
+
 	private boolean testSeedALL(String seed, int floors) {
+		boolean was = simulating;
+		simulating = true;
+		try {
+			return testSeedALLImpl(seed, floors);
+		} finally {
+			simulating = was;
+		}
+	}
+
+	private boolean testSeedALLImpl(String seed, int floors) {
 		SPDSettings.customSeed(seed);
 		Dungeon.initSeed();
 		GamesInProgress.selectedClass = HeroClass.WARRIOR;
@@ -380,6 +394,16 @@ public class SeedFinder {
 	}
 
 	public String logSeedItems(String seed, int floors) {
+		boolean was = simulating;
+		simulating = true;
+		try {
+			return logSeedItemsImpl(seed, floors);
+		} finally {
+			simulating = was;
+		}
+	}
+
+	private String logSeedItemsImpl(String seed, int floors) {
 		for (GamesInProgress.Info info : GamesInProgress.checkAll()){
 			if (info.seed == DungeonSeed.convertFromText(seed)){
 				return Messages.get(this, "already_playing");
